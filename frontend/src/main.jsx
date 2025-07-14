@@ -8,15 +8,11 @@ import { AuthProvider } from './Context/AuthProvider.jsx';
 import { SocketProvider } from './Context/SocketContext.jsx';
 
 createRoot(document.getElementById('root')).render(
+  <Provider store={store}>
   <AuthProvider>
     <SocketProvider>
-    <Provider store = {store}>
         <App/>
-    </Provider>
     </SocketProvider>
-   
   </AuthProvider>
-   
-   
- 
+  </Provider>
 )

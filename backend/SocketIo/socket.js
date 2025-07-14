@@ -1,6 +1,8 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
+import mongoose from "mongoose";
+import Group from "../Models/groupModel.js";
 
 const app = express();
 
@@ -12,25 +14,35 @@ const io = new Server(server, {
   },
 });
 
-// realtime message code goes here
 export const getReceiverSocketId = (receiverId) => {
   return users[receiverId];
 };
 
 const users = {};
 
-// used to listen events on server side.
-io.on("connection", (socket) => {
+// Helper: join user to all their group rooms
+export const joinUserToGroups = async (userId, socket) => {
+  if (!userId) return;
+  try {
+    const groups = await Group.find({ members: userId });
+    groups.forEach((group) => {
+      socket.join(`group_${group._id}`);
+    });
+  } catch (err) {
+    console.error("Error joining user to groups:", err);
+  }
+};
+
+io.on("connection", async (socket) => {
   console.log("a user connected", socket.id);
   const userId = socket.handshake.query.userId;
   if (userId) {
     users[userId] = socket.id;
+    await joinUserToGroups(userId, socket);
     console.log("Hello ", users);
   }
-  // used to send the events to all connected users
   io.emit("getOnlineUsers", Object.keys(users));
 
-  // used to listen client side events emitted by server side (server & client)
   socket.on("disconnect", () => {
     console.log("a user disconnected", socket.id);
     delete users[userId];

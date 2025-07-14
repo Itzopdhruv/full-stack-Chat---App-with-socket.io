@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import User from "./userModel.js"
 import Message from "./messageModel.js";
+import Group from "./groupModel.js";
 
 const conversationSchema = new mongoose.Schema(
   {
@@ -10,6 +11,11 @@ const conversationSchema = new mongoose.Schema(
         ref: User,
       },
     ],
+    groupId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: Group,
+      required: false,
+    },
     messages: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -17,6 +23,10 @@ const conversationSchema = new mongoose.Schema(
         default: [],
       },
     ],
+    isGroupChat: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

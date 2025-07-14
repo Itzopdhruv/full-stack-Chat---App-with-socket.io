@@ -3,6 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   selectedConversation: null,
   messages: [],
+  groups: [],
+  selectedGroup: null,
+  groupMessages: [],
 };
 
 const conversationSlice = createSlice({
@@ -23,8 +26,28 @@ const conversationSlice = createSlice({
       
         state.messages[0].push(action.payload);
     },
+    setGroups: (state, action) => {
+      state.groups = action.payload;
+    },
+    setSelectedGroup: (state, action) => {
+      state.selectedGroup = action.payload;
+    },
+    setGroupMessages: (state, action) => {
+      state.groupMessages = action.payload;
+    },
+    addGroupMessage: (state, action) => {
+      state.groupMessages.push(action.payload);
+    },
   },
 });
 
-export const { setSelectedConversation, setMessages , addMessages} = conversationSlice.actions;
+export const { 
+  setSelectedConversation, 
+  setMessages, 
+  addMessages, 
+  setGroups, 
+  setSelectedGroup, 
+  setGroupMessages, 
+  addGroupMessage 
+} = conversationSlice.actions;
 export default conversationSlice.reducer;

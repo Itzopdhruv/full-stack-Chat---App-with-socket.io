@@ -7,8 +7,8 @@ import {connectDB} from "./config/db.js";
 import { app , server } from "./SocketIo/socket.js";
 
 import messageRoute from "./Routes/messageRoute.js"
-
 import userRoute from "./Routes/userRoute.js"
+import groupRoute from "./Routes/groupRoute.js"
 dotenv.config();
 connectDB()
 
@@ -24,6 +24,7 @@ app.use(cors());
 const PORT = process.env.PORT
 app.use("/api/user" , userRoute);
 app.use("/api/message" , messageRoute);
+app.use("/api/group" , groupRoute);
 
 server.listen(PORT , ()=> {
     console.log("Server is running" , PORT);

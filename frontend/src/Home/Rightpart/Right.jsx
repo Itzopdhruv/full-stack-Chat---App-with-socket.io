@@ -1,26 +1,27 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Chatuser from "./Chatuser.jsx";
 import Messages from "./Messages.jsx";
 import Typesend from "./Typesend.jsx";
-import { setSelectedConversation } from "../../features/conversationSlice.js";
+import GroupChat from "./GroupChat.jsx";
 import { useAuth } from "../../Context/AuthProvider.jsx";
 import { CiMenuFries } from "react-icons/ci";
 import { useSelector } from "react-redux";
 
 function Right() {
-  const selectedConversation = useSelector((state)=> state.conversation.selectedConversation);
-
+  const { selectedConversation, selectedGroup } = useSelector((state) => state.conversation);
   
   return (
     <div className="w-full bg-slate-900 text-gray-300">
       <div>
-        {!selectedConversation ? (
+        {!selectedConversation && !selectedGroup ? (
           <NoChatSelected />
+        ) : selectedGroup ? (
+          <GroupChat />
         ) : (
           <>
             <Chatuser /> 
             <div
-              className=" flex-1 overflow-y-auto"
+              className="flex-1 overflow-y-auto"
               style={{ maxHeight: "calc(88vh - 8vh)" }}
             >
               <Messages />

@@ -100,3 +100,15 @@ export const allUsers = async (req, res) => {
     console.log("Error in allUsers Controller: " + error);
   }
 };
+
+export const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(401).json({ error: "Not authorized" });
+  }
+};

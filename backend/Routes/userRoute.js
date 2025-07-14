@@ -4,6 +4,7 @@ import {
   login,
   logout,
   signup,
+  getProfile,
 } from "../Controllers/userController.js";
 import upload from "../MiddleWares/multer.js";
 import secureRoute from "../MiddleWares/secureRoute.js";
@@ -13,5 +14,6 @@ router.post("/signup", upload.single('photo'), signup);
 router.post("/login", login);
 router.post("/logout", logout);
 router.get("/allusers", secureRoute, allUsers);
+router.get("/me", secureRoute, getProfile);
 
 export default router;
